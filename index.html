@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Locker</title>
+    <script type="text/javascript">
+        function unlock() {
+            document.title = 'topython:::exit'
+        }
+
+        window.onload = function () {
+        
+            document.getElementById('unlock_btn').onclick = function (e) {
+                unlock();
+            }
+        }
+    </script>
+</head>
+<body>
+    <button id="unlock_btn">Unlock</button>
+    
+</body>
+</html>
