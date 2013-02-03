@@ -5,20 +5,50 @@
     <title>Locker</title>
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript">
-        function unlock() {
-            document.title = 'topython:::exit'
-        }
 
-        window.onload = function () {
-            $('body').text("aaaa") 
-            document.getElementById('unlock_btn').onclick = function (e) {
-                unlock();
+        function auth_done()
+        {
+            $('body').append("<div>"+locker.is_auth+"</div>")
+            if(1 == locker.is_auth )
+            {
+                locker.unlock()
+            }
+            else
+            {
+                $('body').append("<div>Auth failed !</div>")
+                reset()
             }
         }
+
+        function reset()
+        {
+            $('#username').val("")
+            $('#password').val("")
+        }
+
+        $(document).ready(function()
+        {
+            $('#username').focus()
+
+            document.getElementById('unlock_btn').onclick = function (e) {
+                locker.unlock()
+            }
+
+            $('#password').keypress(function(e){
+                if(13 == e.which)
+                {
+                    locker.provide_name($('#username').val())
+                    locker.provide_secret(this.value)
+                    locker.auth()
+                }
+            })
+        })
     </script>
 </head>
 <body>
     <button id="unlock_btn">Unlock</button>
+    <input id="username" type="text" />
+    <input id="password" type="password" />
     
 </body>
 </html>
