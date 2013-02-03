@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Locker</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript">
         function unlock() {
             document.title = 'topython:::exit'
         }
 
         window.onload = function () {
-        
+            $('body').text("aaaa") 
             document.getElementById('unlock_btn').onclick = function (e) {
                 unlock();
             }
