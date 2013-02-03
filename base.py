@@ -12,6 +12,10 @@ INDEX_FILE = "file://%s/index.html" % os.path.join(os.path.split(os.path.abspath
 
 class Base:
     def __init__(self):
+        """
+            self.window: gtk window object
+            self.webview: webkit webview object
+        """
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.show()
         self.webview = webkit.WebView()
@@ -21,17 +25,22 @@ class Base:
         self.window.fullscreen()
         self.window.set_keep_above(True)
 
-        def title_changed(v, params):
-            print 'title_changed: %s, %s' % (v, params)
-            if not v.get_title():
-                return
-            if v.get_title().startswith("topython:::"):
-                command = v.get_title().split(":::", 1)[1]
-                if command == 'exit':
-                    gtk.main_quit()
 
+        # Events binding
         self.window.connect('destroy', lambda x: gtk.main_quit())
-        self.webview.connect('notify::title', title_changed)
+        self.window.connect('size-request', self.size_changed)
+        self.webview.connect('notify::title', self.title_changed)
+        
+    def title_changed(self, webview, *params):
+        if not webview.get_title():
+            return
+        if webview.get_title().startswith("topython:::"):
+            command = webview.get_title().split(":::", 1)[1]
+            if command == 'exit':
+                gtk.main_quit()
+
+    def size_changed(self, window, *params):
+            window.fullscreen()
 
     def main(self):
         gtk.main()
